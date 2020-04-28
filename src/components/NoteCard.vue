@@ -22,7 +22,7 @@
         class="note-card__todos"  
       >
         <base-checkbox
-          v-for="todo in note.todos"
+          v-for="todo in note.todos.slice(0, 3)"
           :key="todo.id"
           v-model="todo.value"
           class="flex mb-8"
