@@ -1,32 +1,49 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <h1 class="text-center">Notes Application</h1>
+    <base-transition :name="transitionName">
+      <router-view/>
+    </base-transition>
+    <base-modal />
   </div>
 </template>
+
+<script>
+import { mapActions } from 'vuex'
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      transitionName: 'fade'
+    }
+  },
+  methods: {
+    ...mapActions([
+      'initNotesFromLocalStorage'
+    ])
+  },
+  watch: {
+    // Watching route to change between transitions
+    '$route' (to, from) {
+      const toDepth = to.path.split('/').length,
+            fromDepth = from.path.split('/').length
+
+      this.transitionName = toDepth > fromDepth ? 'slide-left' : 'slide-right'
+    }
+  },
+  beforeMount() {
+    this.initNotesFromLocalStorage()
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  margin-bottom: 3.2rem;
 }
 </style>
