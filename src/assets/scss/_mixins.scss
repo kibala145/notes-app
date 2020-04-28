@@ -1,9 +1,0 @@
-@mixin md {
-  @media screen and (min-width: $screen-width-2) {
-    @content;
-  }
-}
-@mixin row {
-  display: flex;
-  flex-direction: row;
-}
